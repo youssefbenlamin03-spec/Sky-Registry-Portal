@@ -1,0 +1,96 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<style>
+    .register-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 60vh;
+        background-color: #0172B0;
+        padding: 40px 0;
+    }
+
+    .register-box {
+        background-color: white;
+        padding: 40px;
+        border-radius: 8px;
+        width: 300px;
+    }
+
+    ::placeholder {
+        color: #aaaaaa;
+        font-style: italic;
+    }
+
+    .error-message {
+        background-color: #ffe0e0;
+        color: #cc0000;
+        border: 1px solid #cc0000;
+        border-radius: 4px;
+        padding: 8px 12px;
+        margin-bottom: 12px;
+        font-size: 14px;
+        text-align: center;
+    }
+</style>
+
+<div class="register-wrapper">
+    <div class="register-box">
+
+        <h2>Register</h2>
+
+        <!-- Error message if something goes wrong -->
+        {% if error %}
+            <div class="error-message">
+                ⚠️ {{ error }}
+            </div>
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <label>First Name</label>
+            <input type="text" name="first_name" placeholder="e.g. John">
+
+            <br><br>
+
+            <label>Last Name</label>
+            <input type="text" name="last_name" placeholder="e.g. Smith">
+
+            <br><br>
+
+            <label>Email</label>
+            <input type="email" name="email" placeholder="e.g. john@email.com">
+
+            <br><br>
+
+            <label>Username</label>
+            <input type="text" name="username" placeholder="e.g. john.smith">
+
+            <br><br>
+
+            <label>Password</label>
+            <input type="password" name="password" placeholder="Enter a password">
+
+            <br><br>
+
+            <label>Confirm Password</label>
+            <input type="password" name="confirm_password" placeholder="Repeat your password">
+
+            <br><br>
+
+            <button type="submit">Register</button>
+
+        </form>
+
+        <br>
+        <a href="{% url 'login' %}">Already have an account? Login</a>
+
+    </div>
+</div>
+
+{% block footer %}{% endblock %}
+
+{% endblock %}
