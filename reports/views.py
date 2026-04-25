@@ -1,3 +1,11 @@
 from django.shortcuts import render
+from organisation.models import Team
 
-# Create your views here.
+def reports_overview(request):
+    number_of_teams = Team.objects.count()
+
+    data = {
+        'number_of_teams': number_of_teams
+    }
+
+    return render(request, 'reports/reports_overview.html', data)
