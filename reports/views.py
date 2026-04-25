@@ -8,4 +8,6 @@ def reports_overview(request):
         'number_of_teams': number_of_teams
     }
 
-    return render(request, 'reports/reports_overview.html', data)
+    return render(request, 'reports/reports_overview.html', {
+        'number_of_teams': number_of_teams
+    })
