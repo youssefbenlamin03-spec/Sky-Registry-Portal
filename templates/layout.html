@@ -123,7 +123,7 @@
         <a href="{% url 'organisation_overview' %}">🏛️ Organisation</a>
         <a href="#">💬 Messages</a>
         <a href="#">🔐 User Permissions</a>
-        <a href="#">📊 Reports</a>
+        <a href="{% url 'reports_overview' %}">📊 Reports</a>
         <a href="#">📈 Data Visualisation</a>
 
         {% else %}
@@ -133,6 +133,7 @@
         <a href="#">💬 Messages</a>
         <a href="#">📅 Schedule</a>
         <a href="#">👤 Profile</a>
+        <a href="{% url 'reports_overview' %}">📊 Reports</a>
 
         {% endif %}
 

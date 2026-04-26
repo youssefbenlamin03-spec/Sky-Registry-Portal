@@ -23,5 +23,6 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('organisation/', include('organisation.urls')),
     path('visualisation/', include('visualisation.urls')),
+    path('reports/', include('reports.urls')),
     path('', lambda request: redirect('login')),
 ]
