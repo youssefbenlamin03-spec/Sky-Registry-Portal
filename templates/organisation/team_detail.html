@@ -1,0 +1,45 @@
+{% extends layout.html%}
+
+{% block content %}
+
+<div class = "container mt-4">
+
+    <a href="{% url 'organisation_overview' %}" class="btn btn-secondary mb-3">
+        ← Back to Overview 
+    </a>
+
+    <h2> {{ team.teamName }} </h2>
+
+    <div class="card mb-4">
+        <div class="card-header" style="background-color: #0172B0; color: white;">
+            <h5>Team Information</h5>
+        </div>
+
+        <div class="card-body">
+            <p><strong>Department:</strong> {{ team.department }}</p>
+            <p><strong>Development Focus:</strong> {{ team.developmentFocusArea }}</p>
+            <p><strong>Key Skills & Technologies:</strong> {{ team.keySkillsAndTechnologies }}</p>
+            <p><strong>Agile Practices:</strong> {{ team.agilePractices }}</p>
+            <p><strong>Number of Concurrent Projects:</strong> {{ team.numberOfConcurrentProjects }}</p>
+        </div>
+    </div>
+
+     <div class="card mb-4">
+        <div class="card-header" style="background-color: #0172B0; color: white;">
+            <h5>Team Dependencies</h5>
+        </div>
+        <div class="card-body">
+            {% if dependencies %}
+                {% for dep in dependencies %}
+                    <span class="badge bg-warning text-dark me-1">{{ dep.targetTeam }}</span>
+                {% endfor %}
+            {% else %}
+                <p class="text-muted">No dependencies recorded.</p>
+            {% endif %}
+         </div>
+    </div>
+
+
+</div>
+
+{% endblock %}
