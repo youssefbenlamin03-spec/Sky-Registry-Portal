@@ -32,3 +32,12 @@ def department_detail(request, department_id):
         'department': department,
         'teams': teams
     })
+
+def team_detail(request, team_id):
+    team = team.object.get(id=team_id)
+    # get teams this team depends on
+    dependencies = TeamDependency.objects.filter(sourceTeam=team)
+    return render(request, 'organisation/team_detail.html', 
+                  {'team': team, 
+                   'dependencies': dependencies})    
+    

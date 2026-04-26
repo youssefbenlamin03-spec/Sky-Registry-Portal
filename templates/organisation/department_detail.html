@@ -27,7 +27,9 @@
     {% for team in teams %}
     <div class="card mb-3">
         <div class="card-body">
-            <h5>{{ team.teamName }}</h5>
+            <h5>
+                <a href="{% url 'team_detail' team.id %}" style="color: #0172B0; text-decoration: none;">{{ team.teamName }}</a>
+            </h5>
             <p><strong>Focus Area:</strong> {{ team.developmentFocusArea|default:"Not specified" }}</p>
             <p><strong>Key Skills & Technologies:</strong> {{ team.keySkillsAndTechnologies|default:"Not specified" }}</p>
             <p><strong>Agile Practices:</strong> {{ team.agilePractices|default:"Not specified" }}</p>
