@@ -7,36 +7,26 @@
     <h2>Organisation Overview</h2>
     <p>Browse all departments and the teams within them.</p>
 
-    <!-- loop through every department -->
     {% for department in departments %}
-
     <div class="card mb-4">
         <div class="card-header" style="background-color: #0172B0; color: white;">
-            <h4>  
-                <a href="{% url 'department_detail' department.id %}" 
+            <h4>
+                <a href="{% url 'department_detail' department.departmentID %}"
                 style="color: white; text-decoration: none;">
                 {{ department.departmentName }} →
                 </a>
             </h4>
-            <small>Head: {{ department.departmentHead }}</small>
         </div>
 
         <div class="card-body">
-
-            <p><strong>Specialisation:</strong> {{ department.specialisation }}</p>
-
             <h6>Teams in this department:</h6>
-
-            <!-- loop through teams belonging to this department -->
             {% for team in department.teams.all %}
                 <span class="badge bg-secondary me-1">{{ team.teamName }}</span>
             {% empty %}
                 <p class="text-muted">No teams assigned yet.</p>
             {% endfor %}
-
         </div>
     </div>
-
     {% endfor %}
 
 </div>
