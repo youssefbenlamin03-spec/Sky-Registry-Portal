@@ -124,7 +124,7 @@
         <a href="#">💬 Messages</a>
         <a href="#">🔐 User Permissions</a>
         <a href="{% url 'reports_overview' %}">📊 Reports</a>
-        <a href="#">📈 Data Visualisation</a>
+        <a href="{% url 'visualisation_overview' %}">📈 Data Visualisation</a>
 
         {% else %}
         <!-- normal user sidebar links -->
@@ -134,6 +134,7 @@
         <a href="#">📅 Schedule</a>
         <a href="#">👤 Profile</a>
         <a href="{% url 'reports_overview' %}">📊 Reports</a>
+        <a href="{% url 'visualisation_overview' %}">📈 Data Visualisation</a>
 
         {% endif %}
 
