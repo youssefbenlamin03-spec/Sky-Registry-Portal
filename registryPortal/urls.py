@@ -25,4 +25,6 @@ urlpatterns = [
     path('visualisation/', include('visualisation.urls')),
     path('reports/', include('reports.urls')),
     path('', lambda request: redirect('login')),
+    path('teams/', include('menuitemteams.urls')),
+    path('messages/', include('messaging.urls')),
 ]
