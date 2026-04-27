@@ -4,6 +4,7 @@ class Department(models.Model):
     departmentID   = models.IntegerField(primary_key=True)
     departmentName = models.TextField()
     departmentHead  = models.TextField(blank=True, null=True)
+    specialisation  = models.TextField(blank=True, null=True)
 
     class Meta:
         db_table = 'Department'
