@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'organisation', 
     'reports',
     'visualisation',
+    'menuitemteams',
+    'messaging',
 ]
 
 MIDDLEWARE = [
