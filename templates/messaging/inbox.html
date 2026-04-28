@@ -1,0 +1,13 @@
+<h1>Inbox</h1>
+
+<!-- Link to create a new message -->
+<a href="/messages/new/">New Message</a>
+
+<!-- Loop through all messages -->
+{% for m in messages %}
+    <p><b>{{ m.subject }}</b> - {{ m.content }}</p>
+
+<!-- If no messages exist -->
+{% empty %}
+    <p>No messages</p>
+{% endfor %}
