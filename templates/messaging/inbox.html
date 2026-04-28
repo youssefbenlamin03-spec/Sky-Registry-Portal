@@ -1,3 +1,6 @@
+{% extends "layout.html" %}
+
+{% block content %}
 <h1>Inbox</h1>
 
 <!-- Link to create a new message -->
@@ -6,8 +9,7 @@
 <!-- Loop through all messages -->
 {% for m in messages %}
     <p><b>{{ m.subject }}</b> - {{ m.content }}</p>
-
-<!-- If no messages exist -->
 {% empty %}
     <p>No messages</p>
 {% endfor %}
+{% endblock %}
