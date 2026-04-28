@@ -121,6 +121,7 @@
         <a href="#">👥 Team Management</a>
         <a href="#">🏢 Department</a>
         <a href="{% url 'organisation_overview' %}">🏛️ Organisation</a>
+        <a href="{% url 'org_admin_dashboard' %}">⚙️ Organisation Admin</a> 
         <a href="#">💬 Messages</a>
         <a href="#">🔐 User Permissions</a>
         <a href="{% url 'reports_overview' %}">📊 Reports</a>
@@ -129,6 +130,7 @@
         {% else %}
         <!-- normal user sidebar links -->
         <a href="{% url 'organisation_overview' %}">🏛️ Organisation</a>
+        <a href="{% url 'org_chart' %}">📊 Org Chart</a>
         <a href="#">🔍 Search Teams</a>
         <a href="#">💬 Messages</a>
         <a href="#">📅 Schedule</a>
