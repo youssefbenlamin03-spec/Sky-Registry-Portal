@@ -1,13 +1,12 @@
 from django.db import models
-from django.contrib.auth.models import User
 
 class Message(models.Model):
-    sender = models.ForeignKey(User, on_delete=models.CASCADE)
-    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received')
-    subject = models.CharField(max_length=100)
-    content = models.TextField()
-    is_draft = models.BooleanField(default=False)
-    date_sent = models.DateTimeField(auto_now_add=True)
+    messageID = models.IntegerField(primary_key=True, db_column='messageID')
+    messageTitle = models.TextField(db_column='messageTitle', null=True, blank=True)
+    messageType = models.TextField(db_column='messageType', null=True, blank=True)
+    messageContent = models.TextField(db_column='messageContent', null=True, blank=True)
+    teamID = models.IntegerField(db_column='teamID', null=True, blank=True)
+    userID = models.IntegerField(db_column='userID', null=True, blank=True)
 
-    def __str__(self):
-        return self.subject 
+    class Meta:
+        db_table = 'Message'
