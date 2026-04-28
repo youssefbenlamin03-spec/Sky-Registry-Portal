@@ -1,0 +1,28 @@
+<h1>New Message</h1>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <!-- Dropdown to select receiver -->
+    <label>Receiver:</label>
+    <select name="receiver">
+        {% for user in users %}
+            <option value="{{ user.id }}">{{ user.username }}</option>
+        {% endfor %}
+    </select>
+
+    <br>
+
+    <!-- Input for subject -->
+    <input type="text" name="subject" placeholder="Subject">
+
+    <br>
+
+    <!-- Text area for message content -->
+    <textarea name="content" placeholder="Message"></textarea>
+
+    <br>
+
+    <!-- Submit button -->
+    <button type="submit">Send</button>
+</form>
