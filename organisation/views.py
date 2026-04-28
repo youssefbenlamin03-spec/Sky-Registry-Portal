@@ -29,3 +29,15 @@ def team_detail(request, team_id):
         'team': team,
         'dependencies': dependencies
     })
+    
+@login_required
+def org_chart(request):
+    # get all departments with all their teams and dependency info
+    departments = Department.objects.prefetch_related(
+        'teams__outgoing_dependencies__targetTeam',
+        'teams__incoming_dependencies__sourceTeam',
+    ).all()
+
+    return render(request, 'organisation/org_chart.html', {
+        'departments': departments,
+    })

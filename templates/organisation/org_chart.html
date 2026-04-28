@@ -1,0 +1,112 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <h2>Organisation Chart</h2>
+    <p class="text-muted">
+    This chart shows all Sky Engineering teams grouped by department.
+    Teams are colour coded based on their dependency relationships —
+    green teams are core teams that others rely on, orange teams depend
+    on other teams to function, and blue teams are fully independent.</p>
+    <p>
+        <strong>Legend:</strong>
+        <span class="badge ms-2" style="background-color:#0172B0;">🔵 Independent</span>
+        <span class="badge bg-success ms-2">🟢 Core Team (others depend on them)</span>
+        <span class="badge bg-warning text-dark ms-2">🟠 Dependent Team (depends on others)</span>
+    </p>
+
+    <div class="text-center mb-4">
+        <div class="d-inline-block p-3 text-white fw-bold fs-5" style="background-color: #0172B0; min-width: 250px;">
+            Sky Engineering
+        </div>
+    </div>
+
+    {% for department in departments %}
+
+    <h5 style="color: #0172B0;" class="mt-4">🏢 {{ department.departmentName }}</h5>
+    {% if department.departmentHead %}<p class="text-muted">Head: {{ department.departmentHead }}</p>{% endif %}
+
+    <div class="row">
+        {% for team in department.teams.all %}
+
+        <!-- decide card colour based on dependency type -->
+        {% if team.incoming_dependencies.all %}
+            <!-- green - others depend on this team -->
+            {% with header_color="#198754" %}
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-header text-white" style="background-color: {{ header_color }};">
+                        <strong>{{ team.teamName }}</strong>
+                        <span class="float-end badge bg-light text-dark">Core Team</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-1"><small><strong>Manager:</strong> {{ team.manager|default:"N/A" }}</small></p>
+
+                        <p class="mb-1"><small><strong>⬆️ Depends On:</strong></small></p>
+                        {% for dep in team.outgoing_dependencies.all %}
+                            <span class="badge bg-warning text-dark me-1">{{ dep.targetTeam.teamName }}</span>
+                        {% empty %}
+                            <small class="text-muted">None</small>
+                        {% endfor %}
+
+                        <p class="mb-1 mt-2"><small><strong>⬇️ Depended On By:</strong></small></p>
+                        {% for dep in team.incoming_dependencies.all %}
+                            <span class="badge bg-info text-dark me-1">{{ dep.sourceTeam.teamName }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endwith %}
+
+        {% elif team.outgoing_dependencies.all %}
+            <!-- orange - this team depends on others -->
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-header text-dark" style="background-color: #fd7e14;">
+                        <strong>{{ team.teamName }}</strong>
+                        <span class="float-end badge bg-light text-dark">Dependent</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-1"><small><strong>Manager:</strong> {{ team.manager|default:"N/A" }}</small></p>
+
+                        <p class="mb-1"><small><strong>⬆️ Depends On:</strong></small></p>
+                        {% for dep in team.outgoing_dependencies.all %}
+                            <span class="badge bg-warning text-dark me-1">{{ dep.targetTeam.teamName }}</span>
+                        {% endfor %}
+
+                        <p class="mb-1 mt-2"><small><strong>⬇️ Depended On By:</strong></small></p>
+                        {% for dep in team.incoming_dependencies.all %}
+                            <span class="badge bg-info text-dark me-1">{{ dep.sourceTeam.teamName }}</span>
+                        {% empty %}
+                            <small class="text-muted">None</small>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+        {% else %}
+            <!-- blue - no dependencies at all -->
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-header text-white" style="background-color: #0172B0;">
+                        <strong>{{ team.teamName }}</strong>
+                        <span class="float-end badge bg-light text-dark">Independent</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-1"><small><strong>Manager:</strong> {{ team.manager|default:"N/A" }}</small></p>
+                        <small class="text-muted">No dependencies</small>
+                    </div>
+                </div>
+            </div>
+
+        {% endif %}
+        {% endfor %}
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}
