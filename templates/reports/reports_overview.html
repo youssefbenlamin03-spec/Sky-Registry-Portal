@@ -1,6 +1,41 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<h1>Reports</h1>
-<p>Number of teams: {{ number_of_teams }}</p>
+<h1 class="mb-4">Reports</h1>
+
+<div class="card mb-4">
+    <div class="card-header">
+        <h2 class="h4 mb-0">Summary</h2>
+    </div>
+    <div class="card-body">
+        <p>Number of teams: {{ number_of_teams }}</p>
+        <p>Number of departments: {{ number_of_departments }}</p>
+        <p>Number of engineers: {{ number_of_engineers }}</p>
+
+        <a href="{% url 'export_reports_excel' %}" class="btn btn-success">
+            Download Excel Report
+        </a>
+
+        <a href="{% url 'export_reports_pdf' %}" class="btn btn-danger">
+            Download PDF Report
+        </a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="h4 mb-0">Teams Without Managers</h2>
+    </div>
+    <div class="card-body">
+        {% if teams_without_managers %}
+            <ul>
+                {% for team in teams_without_managers %}
+                    <li>{{ team.teamName }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>All teams have managers assigned.</p>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}
