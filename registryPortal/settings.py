@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'visualisation',
     'menuitemteams',
     'messaging',
+    'schedule',
 ]
 
 MIDDLEWARE = [
