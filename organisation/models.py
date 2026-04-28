@@ -88,3 +88,14 @@ class TeamDependency(models.Model):
 
     def __str__(self):
         return f"{self.sourceTeam} → {self.targetTeam}"
+    
+class AuditLog(models.Model):
+    auditLogID     = models.AutoField(primary_key=True)
+    editEntityType = models.TextField(blank=True, null=True)
+    editActionType = models.TextField(blank=True, null=True)
+    editTimestamp  = models.TextField(blank=True, null=True)
+    userID         = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        db_table = 'Audit_Log'
+        managed  = False

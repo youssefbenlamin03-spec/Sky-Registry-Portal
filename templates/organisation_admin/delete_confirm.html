@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card border-danger">
+
+            <div class="card-header fw-bold text-danger">
+                Confirm Delete
+            </div>
+
+            <div class="card-body text-center py-4">
+
+                <p class="fs-5 mb-1">Are you sure you want to delete:</p>
+
+                <!-- Shows the name of whatever is being deleted -->
+                <p class="fw-bold fs-4 mb-4">{{ object_name }}</p>
+
+                <p class="text-muted small mb-4">This action cannot be undone.</p>
+
+                <!-- Confirm: submits a POST request which triggers the delete in views.py -->
+                <form method="post" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger me-2">Yes, Delete</button>
+                </form>
+
+                <!-- Cancel: goes back to the admin panel without deleting anything -->
+                <a href="{% url 'org_admin_dashboard' %}" class="btn btn-outline-secondary">Cancel</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
