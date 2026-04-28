@@ -11,4 +11,7 @@ urlpatterns = [
     
     # when a user visits /organisation/team/1/ it shows the detail page for team with id 1
     path('team/<int:team_id>/', views.team_detail, name = 'team_detail'),
+    
+    # url for the organisation chart page and shows all departments, teams and their dependencies
+    path('org-chart/', views.org_chart, name='org_chart'),
 ]

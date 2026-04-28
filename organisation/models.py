@@ -75,14 +75,15 @@ class Engineer(models.Model):
 class TeamDependency(models.Model):
     sourceTeam     = models.ForeignKey(Team, on_delete=models.CASCADE,
                                        related_name='outgoing_dependencies',
-                                       db_column='sourceTeamID')
+                                       db_column='sourceTeamID',
+                                       primary_key=True) 
     targetTeam     = models.ForeignKey(Team, on_delete=models.CASCADE,
                                        related_name='incoming_dependencies',
                                        db_column='targetTeamID')
     dependencyType = models.TextField(blank=True, null=True)
 
     class Meta:
-        db_table = 'TeamDependency'
+        db_table = 'Team_Dependency'
         unique_together = ('sourceTeam', 'targetTeam')
 
     def __str__(self):
