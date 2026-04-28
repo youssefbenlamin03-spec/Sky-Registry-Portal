@@ -24,10 +24,12 @@ def department_detail(request, department_id):
 @login_required
 def team_detail(request, team_id):
     team = get_object_or_404(Team, teamID=team_id)
-    dependencies = TeamDependency.objects.filter(sourceTeam=team)
+    outgoing = TeamDependency.objects.filter(sourceTeam=team)
+    incoming = TeamDependency.objects.filter(targetTeam=team)
     return render(request, 'organisation/team_detail.html', {
         'team': team,
-        'dependencies': dependencies
+        'outgoing': outgoing,
+        'incoming': incoming,
     })
     
 @login_required
