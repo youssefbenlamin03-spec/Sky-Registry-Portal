@@ -1,5 +1,4 @@
 from django.urls import path
-<<<<<<< HEAD
 from . import views
 
 # URL patterns for messaging system
