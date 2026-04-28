@@ -1,0 +1,46 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+
+            <!-- Shows which department is being edited -->
+            <div class="card-header fw-bold">
+                Edit Department — {{ dept.departmentName }}
+            </div>
+
+            <div class="card-body">
+                <!-- method="post" sends data to the same URL -->
+                <!-- Django's view checks if it's a POST and saves it -->
+                <form method="post">
+                    {% csrf_token %}
+
+                    <!-- Loop through each field in the form -->
+                    <!-- Django renders the correct input type automatically -->
+                    {% for field in form %}
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">{{ field.label }}</label>
+                        {{ field }}
+                        <!-- Show validation errors if any field is wrong -->
+                        {% if field.errors %}
+                        <div class="text-danger small mt-1">{{ field.errors }}</div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+
+                    <div class="d-flex gap-2 mt-4">
+                        <!-- Save submits the form -->
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <!-- Cancel goes back to the admin panel without saving -->
+                        <a href="{% url 'org_admin_dashboard' %}" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
