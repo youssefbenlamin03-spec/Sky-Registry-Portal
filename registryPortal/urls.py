@@ -25,7 +25,7 @@ urlpatterns = [
     path('organisation/', include('organisation.urls')),
     path('organisation-admin/', include('organisation_admin.urls')),  
     path('visualisation/', include('visualisation.urls')),
-    # path('reports/', include('reports.urls')),
+    path('reports/', include('reports.urls')),
     path('', lambda request: redirect('login')),
     path('teams/', include('menuitemteams.urls')),
     path('messages/', include('messaging.urls')),
