@@ -3,12 +3,14 @@
 {% block content %}
 
 <style>
+    /* Main container for the schedule page */
     .schedule-container {
         max-width: 1100px;
         margin: 0 auto;
         padding: 20px;
     }
 
+    /* Page heading style */
     .page-title {
         font-size: 30px;
         font-weight: bold;
@@ -16,6 +18,7 @@
         margin-bottom: 20px;
     }
 
+    /* Card used for both the form and the meetings list */
     .schedule-card {
         background: #ffffff;
         border-radius: 14px;
@@ -25,6 +28,7 @@
         border: 1px solid #e1e7ee;
     }
 
+    /* Two-column grid layout for the form inputs */
     .form-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -38,6 +42,7 @@
         color: #17324d;
     }
 
+    /* Consistent styling across all form inputs */
     .form-group input,
     .form-group select,
     .form-group textarea {
@@ -53,10 +58,12 @@
         resize: vertical;
     }
 
+    /* Makes an element span both columns in the grid */
     .full-width {
         grid-column: span 2;
     }
 
+    /* Primary submit button */
     .btn-primary {
         background: #006eb6;
         color: white;
@@ -71,6 +78,7 @@
         background: #004f84;
     }
 
+    /* Delete button for individual meetings */
     .btn-danger {
         background: #dc3545;
         color: white;
@@ -85,6 +93,7 @@
         background: #b52a37;
     }
 
+    /* Tab navigation for switching between views */
     .tabs {
         display: flex;
         gap: 10px;
@@ -101,11 +110,13 @@
         font-weight: bold;
     }
 
+    /* Highlight the currently active tab */
     .tab.active {
         background: #006eb6;
         color: white;
     }
 
+    /* Individual meeting card with left border accent */
     .meeting-card {
         border-left: 5px solid #006eb6;
         background: #f8fbfe;
@@ -125,6 +136,7 @@
         margin-bottom: 8px;
     }
 
+    /* Shown when there are no meetings to display */
     .empty-box {
         padding: 20px;
         background: #f4f7fa;
@@ -138,6 +150,7 @@
 
     <h1 class="page-title">Schedule Meetings</h1>
 
+    <!-- Display success or error messages from the view -->
     {% if messages %}
         {% for message in messages %}
             <div style="padding:12px; margin-bottom:15px; border-radius:8px; background:#f4f7fa; color:#17324d; font-weight:bold;">
@@ -146,6 +159,7 @@
         {% endfor %}
     {% endif %}
 
+    <!-- Form to create a new meeting -->
     <div class="schedule-card">
         <h2>Create New Meeting</h2>
 
@@ -158,6 +172,7 @@
                     <input type="text" name="title" required>
                 </div>
 
+                <!-- Platform dropdown with common meeting tools -->
                 <div class="form-group">
                     <label>Platform *</label>
                     <select name="platform" required>
@@ -169,6 +184,7 @@
                     </select>
                 </div>
 
+                <!-- Min date set to today to prevent past scheduling -->
                 <div class="form-group">
                     <label>Date *</label>
                     <input type="date" name="date" min="{{ today }}" required>
@@ -179,6 +195,7 @@
                     <input type="time" name="time" required>
                 </div>
 
+                <!-- Optional message/description for the meeting -->
                 <div class="form-group full-width">
                     <label>Message</label>
                     <textarea name="message"></textarea>
@@ -190,6 +207,7 @@
         </form>
     </div>
 
+    <!-- Tab navigation - passes view type as a GET parameter -->
     <div class="tabs">
         <a href="?view=upcoming" class="tab {% if view == 'upcoming' %}active{% endif %}">Upcoming</a>
         <a href="?view=weekly" class="tab {% if view == 'weekly' %}active{% endif %}">Weekly</a>
@@ -198,46 +216,55 @@
 
     <div class="schedule-card">
 
+        <!-- Upcoming meetings tab - shows all future meetings -->
         {% if view == 'upcoming' %}
             <h2>Upcoming Meetings</h2>
             {% for m in upcoming %}
                 <div class="meeting-card">
-                    <div class="meeting-title">{{ m.title }}</div>
+                    <!-- Using correct model field names from the database -->
+                    <div class="meeting-title">{{ m.scheduleEventTitle }}</div>
                     <div class="meeting-info">
-                        {{ m.meeting_date }} | {{ m.meeting_time }} | {{ m.platform }}
+                        {{ m.scheduleEventDate }} | {{ m.scheduleEventTime }} | {{ m.scheduleEventPlatform }}
                     </div>
 
-                    <form method="post" action="{% url 'delete_meeting' m.id %}" style="display:inline;">
+                    <!-- Delete form uses scheduleEventID as the primary key -->
+                    <form method="post" action="{% url 'delete_meeting' m.scheduleEventID %}" style="display:inline;">
                         {% csrf_token %}
                         <button type="submit" class="btn-danger">Delete</button>
                     </form>
                 </div>
             {% empty %}
-                <div class="empty-box">No meetings</div>
+                <div class="empty-box">No meetings scheduled</div>
             {% endfor %}
         {% endif %}
 
+        <!-- Weekly tab - shows meetings for the current week -->
         {% if view == 'weekly' %}
             <h2>This Week</h2>
             {% for m in weekly %}
                 <div class="meeting-card">
-                    <div class="meeting-title">{{ m.title }}</div>
-                    <div class="meeting-info">{{ m.meeting_date }}</div>
+                    <div class="meeting-title">{{ m.scheduleEventTitle }}</div>
+                    <div class="meeting-info">
+                        {{ m.scheduleEventDate }} | {{ m.scheduleEventTime }} | {{ m.scheduleEventPlatform }}
+                    </div>
                 </div>
             {% empty %}
-                <div class="empty-box">No meetings</div>
+                <div class="empty-box">No meetings this week</div>
             {% endfor %}
         {% endif %}
 
+        <!-- Monthly tab - shows meetings for the current month -->
         {% if view == 'monthly' %}
             <h2>This Month</h2>
             {% for m in monthly %}
                 <div class="meeting-card">
-                    <div class="meeting-title">{{ m.title }}</div>
-                    <div class="meeting-info">{{ m.meeting_date }}</div>
+                    <div class="meeting-title">{{ m.scheduleEventTitle }}</div>
+                    <div class="meeting-info">
+                        {{ m.scheduleEventDate }} | {{ m.scheduleEventTime }} | {{ m.scheduleEventPlatform }}
+                    </div>
                 </div>
             {% empty %}
-                <div class="empty-box">No meetings</div>
+                <div class="empty-box">No meetings this month</div>
             {% endfor %}
         {% endif %}
 
