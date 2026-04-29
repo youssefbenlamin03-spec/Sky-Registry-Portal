@@ -100,8 +100,9 @@
 
         {% if user.is_authenticated %}
         <!-- Search bar - allows users to search teams, departments, managers -->
-            <input type="text" placeholder="Search teams, departments or managers...">
-
+            <form method="GET" action="{% url 'teams_page' %}">
+                <input type="text" name = "q" placeholder="Search teams, departments or managers...">
+            </form>
             <!-- right side icons: notification bell, 
             logged-in username, logout button -->
             <div class="nav-right">
