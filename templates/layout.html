@@ -97,8 +97,9 @@
 
         {% if user.is_authenticated %}
             <!-- search bar -->
-            <input type="text" placeholder="Search teams, departments or managers...">
-
+             <form method = "GET" action="{% url 'teams_page' %}">
+                 <input type="text" name = "q" placeholder="Search teams, departments or managers...">
+            </form>
             <!-- right side -->
             <div class="nav-right">
                 <span>🔔</span>
@@ -132,6 +133,7 @@
         <!-- normal user sidebar links -->
         <a href="{% url 'organisation_overview' %}">🏛️ Organisation</a>
         <a href="{% url 'org_chart' %}">📊 Org Chart</a>
+        <a href="{% url 'teams_page' %}">👥 Teams</a>
         <a href="#">🔍 Search Teams</a>
         <a href="{% url 'inbox' %}">💬 Messages</a>
         <a href="{% url 'schedule' %}">📅 Schedule</a>

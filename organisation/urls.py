@@ -14,4 +14,7 @@ urlpatterns = [
     
     # url for the organisation chart page and shows all departments, teams and their dependencies
     path('org-chart/', views.org_chart, name='org_chart'),
+    
+    # url to display the team page.
+    path("teams/", views.teams_page, name="teams_page"),
 ]
