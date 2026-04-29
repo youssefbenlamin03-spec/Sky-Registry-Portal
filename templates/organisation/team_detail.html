@@ -17,10 +17,33 @@
 
         <div class="card-body">
             <p><strong>Department:</strong> {{ team.department }}</p>
-            <p><strong>Development Focus:</strong> {{ team.developmentFocusArea }}</p>
-            <p><strong>Key Skills & Technologies:</strong> {{ team.keySkillsAndTechnologies }}</p>
-            <p><strong>Agile Practices:</strong> {{ team.agilePractices }}</p>
-            <p><strong>Number of Concurrent Projects:</strong> {{ team.numberOfConcurrentProjects }}</p>
+            <p><strong>Manager:</strong> {{ team.manager.engineerName|default:"Not assigned" }}</p>
+            <p><strong>Development Focus:</strong> {{ team.developmentFocusArea|default:"Not specified" }}</p>
+            <p><strong>Key Skills & Technologies:</strong> {{ team.keySkillsAndTechnologies|default:"Not specified" }}</p>
+            <p><strong>Agile Practices:</strong> {{ team.agilePractices|default:"Not specified" }}</p>
+            <p><strong>Concurrent Projects:</strong> {{ team.numberOfConcurrentProjects|default:"Not specified" }}</p>
+            <p><strong>Slack Channel:</strong> {{ team.slackChannel|default:"Not specified" }}</p>
+            <p><strong>Daily Standup:</strong> {{ team.dailyStundupTimeAndLink|default:"Not specified" }}</p>
+            <p><strong>Jira Board:</strong> {{ team.jiraBoardLink|default:"Not specified" }}</p>
+            <p><strong>Wiki:</strong> {{ team.wikiLink|default:"Not specified" }}</p>
+            <p><strong>Software Owned:</strong> {{ team.softwareOwnedAndEvolved|default:"Not specified" }}</p>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header" style="background-color: #0172B0; color: white;">
+            <h5>Team Members</h5>
+        </div>
+        <div class="card-body">
+            {% if team.engineers.all %}
+                <ul>
+                {% for engineer in team.engineers.all %}
+                    <li>{{ engineer.engineerName }} — {{ engineer.engineerExpertise|default:"No expertise listed" }}</li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-muted">No members listed.</p>
+            {% endif %}
         </div>
     </div>
 
@@ -29,12 +52,22 @@
             <h5>Team Dependencies</h5>
         </div>
         <div class="card-body">
-            {% if dependencies %}
-                {% for dep in dependencies %}
-                    <span class="badge bg-warning text-dark me-1">{{ dep.targetTeam }}</span>
+            <p><strong>Upstream (this team depends on):</strong></p>
+            {% if outgoing %}
+                {% for dep in outgoing %}
+                    <span class="badge bg-warning text-dark me-1">{{ dep.targetTeam.teamName }}</span>
                 {% endfor %}
             {% else %}
-                <p class="text-muted">No dependencies recorded.</p>
+                <p class="text-muted">No upstream dependencies.</p>
+            {% endif %}
+
+            <p class="mt-3"><strong>Downstream (depends on this team):</strong></p>
+            {% if incoming %}
+                {% for dep in incoming %}
+                    <span class="badge bg-info text-dark me-1">{{ dep.sourceTeam.teamName }}</span>
+                {% endfor %}
+            {% else %}
+                <p class="text-muted">No downstream dependencies.</p>
             {% endif %}
          </div>
     </div>

@@ -39,10 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts',
     'organisation', 
+    'organisation_admin',
     'reports',
     'visualisation',
     'menuitemteams',
     'messaging',
+    'schedule',
 ]
 
 MIDDLEWARE = [

@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class MessagingConfig(AppConfig):
+class OrganisationAdminConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'messaging'
+    name = 'organisation_admin'

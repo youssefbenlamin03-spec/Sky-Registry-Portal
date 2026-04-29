@@ -1,0 +1,75 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<!-- Main container using full width with horizontal padding -->
+<div class="container-fluid px-4">
+
+    <!-- Page header with back link -->
+    <div class="mb-4">
+        <h2 style="color: #0172B0; font-weight: bold;">✉️ New Message</h2>
+        <!-- Link to return to inbox without sending -->
+        <a href="/messages/inbox/" class="text-decoration-none" style="color: #0172B0;">
+            ← Back to Inbox
+        </a>
+    </div>
+
+    <!-- Compose message card, limited width for readability -->
+    <div class="card shadow-sm" style="max-width: 700px;">
+
+        <!-- Card header styled in portal blue -->
+        <div class="card-header text-white fw-bold" style="background-color: #0172B0;">
+            Compose Message
+        </div>
+
+        <div class="card-body p-4">
+            <!-- Form submits via POST to save message to database -->
+            <form method="POST">
+                {% csrf_token %}
+
+                <!-- Receiver dropdown - populated from all registered users -->
+                <div class="mb-3">
+                    <label class="form-label fw-bold">To:</label>
+                    <select name="receiver" class="form-select">
+                        {% for user in users %}
+                            <!-- Each user shown as a selectable option -->
+                            <option value="{{ user.id }}">{{ user.username }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Subject input field -->
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Subject:</label>
+                    <input type="text" name="subject" class="form-control"
+                           placeholder="Enter subject...">
+                </div>
+
+                <!-- Message body textarea -->
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Message:</label>
+                    <textarea name="content" class="form-control" rows="6"
+                              placeholder="Write your message here..."></textarea>
+                </div>
+
+                <!-- Action buttons row -->
+                <div class="d-flex gap-2">
+                    <!-- Submit button sends the message -->
+                    <button type="submit" class="btn text-white px-4"
+                            style="background-color: #0172B0;">
+                        📤 Send Message
+                    </button>
+
+                    <!-- Cancel returns to inbox without saving -->
+                    <a href="/messages/inbox/" class="btn btn-outline-secondary px-4">
+                        Cancel
+                    </a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
