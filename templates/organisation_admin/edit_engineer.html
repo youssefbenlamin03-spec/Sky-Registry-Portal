@@ -2,17 +2,22 @@
 
 {% block content %}
 
+<!-- Centre the card horizontally on the page using Bootstrap's grid system -->
 <div class="row justify-content-center">
     <div class="col-md-6">
         <div class="card">
 
-            <!-- Shows which engineer is being edited -->
+            <!-- Card header shows the name of the engineer being edited
+                 eng.engineerName comes from the view which passes the
+                 engineer object to the template as 'eng' -->
             <div class="card-header fw-bold">
                 Edit Engineer — {{ eng.engineerName }}
             </div>
 
             <div class="card-body">
+                
                 <form method="post">
+
                     {% csrf_token %}
 
                     {% for field in form %}

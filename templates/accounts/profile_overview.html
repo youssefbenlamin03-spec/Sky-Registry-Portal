@@ -1,0 +1,116 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<!-- Page title -->
+<h2>My Profile</h2>
+<p>Logged in as: <strong>{{ request.user.username }}</strong></p>
+
+<hr>
+
+<!-- Update profile details which allows user change their name, last name
+ amd email address. Username is shown but cannot be changed. -->
+
+<h4>Update Profile Details</h4>
+
+<!-- Show a success message if the profile was updated -->
+{% if profile_success %}
+    <p style="color: green;">{{ profile_success }}</p>
+{% endif %}
+
+<!-- Show an error message if something went wrong -->
+{% if profile_error %}
+    <p style="color: red;">{{ profile_error }}</p>
+{% endif %}
+
+<!-- The name="update_profile" on the button tells the view which form was submitted -->
+<form method="POST">
+    {% csrf_token %}
+
+    <p>
+        <label>First Name:</label><br>
+        <input type="text" name="first_name" value="{{ request.user.first_name }}" required>
+    </p>
+
+    <p>
+        <label>Last Name:</label><br>
+        <input type="text" name="last_name" value="{{ request.user.last_name }}" required>
+    </p>
+
+    <p>
+        <label>Email Address:</label><br>
+        <input type="email" name="email" value="{{ request.user.email }}" required>
+    </p>
+
+    <!-- Username is disabled so the user can see it but cannot edit it -->
+    <p>
+        <label>Username (cannot be changed):</label><br>
+        <input type="text" value="{{ request.user.username }}" disabled>
+    </p>
+
+    <button type="submit" name="update_profile">Save Changes</button>
+
+</form>
+
+<hr>
+
+<!-- Change password part which asks about current password first to verify
+  the identity before setting a new one-->
+<h4>Change Password</h4>
+
+<!-- Show a success message if the password was changed -->
+{% if password_success %}
+    <p style="color: green;">{{ password_success }}</p>
+{% endif %}
+
+<!-- Show an error message if something went wrong (e.g. wrong current password) -->
+{% if password_error %}
+    <p style="color: red;">{{ password_error }}</p>
+{% endif %}
+
+<!-- The name="change_password" on the button tells the view which form was submitted -->
+<form method="POST">
+    {% csrf_token %}
+
+    <p>
+        <label>Current Password:</label><br>
+        <input type="password" name="current_password" required>
+    </p>
+
+    <p>
+        <label>New Password:</label><br>
+        <input type="password" name="new_password" required>
+        <br><small>Must be at least 8 characters long.</small>
+    </p>
+
+    <p>
+        <label>Confirm New Password:</label><br>
+        <input type="password" name="confirm_password" required>
+    </p>
+
+    <button type="submit" name="change_password">Change Password</button>
+
+</form>
+
+<hr>
+
+<!-- Account information to display basic information about the user. 
+ Nothing can be editted here (only for display) -->
+<h4>Account Information</h4>
+
+<p>
+    <!-- Check if the user is a staff/admin user and show their account type -->
+    <strong>Account Type:</strong>
+    {% if request.user.is_staff %}
+        Admin
+    {% else %}
+        Standard User
+    {% endif %}
+</p>
+
+<!-- date_joined and last_login come built-in from Django's User model -->
+<!-- The "d M Y" filter formats the date e.g. 29 Apr 2026             -->
+<p><strong>Date Joined:</strong> {{ request.user.date_joined|date:"d M Y" }}</p>
+<p><strong>Last Login:</strong> {{ request.user.last_login|date:"d M Y, H:i" }}</p>
+
+{% endblock %}

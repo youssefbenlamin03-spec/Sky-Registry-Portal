@@ -43,3 +43,15 @@ def org_chart(request):
     return render(request, 'organisation/org_chart.html', {
         'departments': departments,
     })
+
+def teams_page(request):
+    query = request.GET.get("q")
+    teams = Team.objects.all()
+
+    if query:
+        teams = teams.filter(teamName__icontains=query)
+
+    return render(request, "organisation/teams.html", {
+        "teams": teams,
+        "query": query
+    })

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User 
 
@@ -117,6 +117,57 @@ def admin_login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('login')
+
+# Profile page — update details and change password
+@login_required(login_url='login')
+def profile_view(request):
+    user = request.user
+    profile_success = None
+    password_success = None
+    profile_error = None
+    password_error = None
+
+    if request.method == 'POST':
+
+        # Update profile details
+        if 'update_profile' in request.POST:
+            first_name = request.POST.get('first_name', '').strip()
+            last_name  = request.POST.get('last_name', '').strip()
+            email      = request.POST.get('email', '').strip()
+
+            if User.objects.filter(email=email).exclude(pk=user.pk).exists():
+                profile_error = 'That email address is already in use by another account.'
+            else:
+                user.first_name = first_name
+                user.last_name  = last_name
+                user.email      = email
+                user.save()
+                profile_success = 'Your profile details have been updated.'
+
+        # Change password
+        elif 'change_password' in request.POST:
+            current_password = request.POST.get('current_password', '')
+            new_password     = request.POST.get('new_password', '')
+            confirm_password = request.POST.get('confirm_password', '')
+
+            if not user.check_password(current_password):
+                password_error = 'Your current password is incorrect.'
+            elif new_password != confirm_password:
+                password_error = 'New passwords do not match.'
+            elif len(new_password) < 8:
+                password_error = 'New password must be at least 8 characters long.'
+            else:
+                user.set_password(new_password)
+                user.save()
+                update_session_auth_hash(request, user)  # keeps user logged in after password change
+                password_success = 'Your password has been changed successfully.'
+
+    return render(request, 'accounts/profile_overview.html', {
+        'profile_success': profile_success,
+        'password_success': password_success,
+        'profile_error': profile_error,
+        'password_error': password_error,
+    })
 
 # Dashboard page
 def dashboard(request):
