@@ -129,9 +129,8 @@
              admin_login_view inside accounts/views.py. -->
         <a href="#">➕ Add Team</a>
         <a href="#">👥 Team Management</a>
-        <a href="#">🏢 Department</a>
-        <a href="{% url 'organisation_overview' %}">🏛️ Organisation</a>
-        <a href="{% url 'org_admin_dashboard' %}">⚙️ Organisation Admin</a> 
+        <a href="{% url 'organisation_overview' %}">🏛️ Departments</a>
+        <a href="{% url 'org_admin_dashboard' %}">⚙️ Department Admin</a> 
         <a href="{% url 'profile' %}">👤 Profile</a>
         <a href="{% url 'reports_overview' %}">Reports</a>
         <a href="{% url 'inbox' %}">💬 Messages</a>
@@ -145,10 +144,9 @@
              a standard (non-admin) user is logged in.
              request.session.is_admin_mode is set to False in
              login_view inside accounts/views.py.                     -->
-        <a href="{% url 'organisation_overview' %}">🏛️ Organisation</a>
+        <a href="{% url 'organisation_overview' %}">🏛️ Departmens</a>
         <a href="{% url 'org_chart' %}">📊 Org Chart</a>
         <a href="{% url 'teams_page' %}">👥 Teams</a>
-        <a href="#">🔍 Search Teams</a>
         <a href="{% url 'reports_overview' %}">Reports</a>
         <a href="{% url 'inbox' %}">💬 Messages</a>
         <a href="{% url 'schedule' %}">📅 Schedule</a>
